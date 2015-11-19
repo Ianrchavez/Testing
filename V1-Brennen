@@ -1,0 +1,39 @@
+#include <tank_Cwrap.h>
+
+void setup() // put your setup code here, to run once:
+{
+  setSpeed(200) // we will have to expirement to find the best speed
+}
+
+void loop() // put your main code here, to run repeatedly:
+{
+  updateSensors();
+
+int total = lf_right + lf_mright + lf_mleft + lf_right;
+int direction = (lf_left + lf_mleft) - (lf_right + lf_mright);
+// will be possitive if Lobotank is veering right relative to the line, negative if it's going left
+
+  if(direction < 30 && direction > -30 && total >= 100)
+    forward();
+
+  if(direction >= 30 && direction < 45)
+  	turnLeft_slight();
+  if(direction >= 45 && direction < 60)
+  	turnLeft();
+  if(direction >= 60 && direction < 80)
+  	turnLeft_hard();
+  if(direction >= 80)
+  	turnAround_left();
+
+  if(direction <= -30 && direction > -45)
+  	turnRight_slight();
+  if(direction <= -45 && direction > -60)
+  	turnRight();
+  if(direction <= -60 && direction > -80)
+  	turnRight_hard();
+  if(direction <= -80)
+  	turnAround_right();
+
+  if(total < 100) //Lobotank lost the line
+  	reverse();
+}
